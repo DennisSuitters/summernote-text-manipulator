@@ -37,7 +37,7 @@ $(document).ready(function() {
       ['view',['fullscreen','codeview']],
       ['help',['help']]
     ],
-    textmanipulator:{
+    textManipulator:{
       lang: 'en-US' // Change to your chosen language
     }
   });

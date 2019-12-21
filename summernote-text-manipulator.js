@@ -58,12 +58,12 @@
               var menuSelect = $button.data('value');
               e.preventDefault();
               var selection = $note.summernote('createRange').toString();
-              if ($('.summernote-cleanerAlert').length > 0)$('.summernote-cleanerAlert').remove();
+              if ($('.summernote-textManipulatorAlert').length > 0)$('.summernote-textManipulatorAlert').remove();
               if(selection == '') {
                 if ($('.note-status-output').length > 0)
-                  $('.note-status-output').html('<div class="summernote-cleanerAlert alert alert-danger">' + lang.textManipulator.noSelection + '</div>');
+                  $('.note-status-output').html('<div class="summernote-textManipulatorAlert alert alert-danger">' + lang.textManipulator.noSelection + '</div>');
                 else
-                  $editor.find('.note-resizebar').append('<div class="summernote-cleanerAlert alert alert-danger" style="' + options.textManipulator.noteSatus + '">' + lang.textManipulator.noSelection + '</div>');
+                  $editor.find('.note-resizebar').append('<div class="summernote-textManipulatorAlert alert alert-danger" style="' + options.textManipulator.noteSatus + '">' + lang.textManipulator.noSelection + '</div>');
               } else {
                 switch (menuSelect){
                   case 'camelCase':
@@ -75,9 +75,9 @@
                     } else {
                       var modded = 'textManipulatorError';
                       if ($('.note-status-output').length > 0)
-                        $('.note-status-output').html('<div class="summernote-cleanerAlert alert alert-danger">' + lang.textManipulator.noNumber + '</div>');
+                        $('.note-status-output').html('<div class="summernote-textManipulatorAlert alert alert-danger">' + lang.textManipulator.noNumber + '</div>');
                       else
-                        $editor.find('.note-resizebar').append('<div class="summernote-cleanerAlert alert alert-danger" style="' + options.textManipulator.noteSatus + '">' + lang.textManipulator.noNumber + '</div>');
+                        $editor.find('.note-resizebar').append('<div class="summernote-textManipulatorAlert alert alert-danger" style="' + options.textManipulator.noteSatus + '">' + lang.textManipulator.noNumber + '</div>');
                     }
                   break;
                   case 'Humanize':
@@ -109,48 +109,45 @@
 }));
 
 /* Various String Helper Functions found in various places */
-function isNumeric(value) {
-  return /^-{0,1}\d+$/.test(value);
-}
-function addSpace (match, letter, index) {
-  if (index === 0 && !/[A-Z]/.test(letter)) {
-    return letter.toUpperCase()
-  }
-  return ' ' + letter.toLowerCase()
+function isNumeric(v) {
+  return /^-{0,1}\d+$/.test(v);
 }
 
-function capitalize (str, lowercaseRest = false) {
-  let rest = str.slice(1)
-  rest = lowercaseRest ? rest.toLowerCase() : rest
-  return str.charAt(0).toUpperCase() + rest
+function addSpace (m, l, i) {
+  if (i === 0 && !/[A-Z]/.test(l)) return l.toUpperCase();
+  return ' ' + l.toLowerCase();
 }
 
-function formatDollar (num) {
-  var p = parseFloat(num).toFixed(2).split(".");
-  return p[0].split("").reverse().reduce(function(acc, num, i, orig) {
-    return  num=="-" ? acc : num + (i && !(i % 3) ? "," : "") + acc;
+function capitalize (str, lR = false) {
+  var r = str.slice(1);
+  r = lR ? r.toLowerCase() : r;
+  return str.charAt(0).toUpperCase() + r;
+}
+
+function formatDollar (n) {
+  var p = parseFloat(n).toFixed(2).split(".");
+  return p[0].split("").reverse().reduce(function(a, n, i, orig) {
+    return  n=="-" ? a : n + (i && !(i % 3) ? "," : "") + a;
   }, "") + "." + p[1];
 }
 
-function toWords (input) {
-  var regex = /[A-Z\xC0-\xD6\xD8-\xDE]?[a-z\xDF-\xF6\xF8-\xFF]+|[A-Z\xC0-\xD6\xD8-\xDE]+(?![a-z\xDF-\xF6\xF8-\xFF])|\d+/g;
-  return input.match(regex);
+function toWords (i) {
+  var r = /[A-Z\xC0-\xD6\xD8-\xDE]?[a-z\xDF-\xF6\xF8-\xFF]+|[A-Z\xC0-\xD6\xD8-\xDE]+(?![a-z\xDF-\xF6\xF8-\xFF])|\d+/g;
+  return i.match(r);
 }
 
-function toCamelCase (inputArray) {
-  let result = "";
-  for(let i = 0 , len = inputArray.length; i < len; i++) {
-    let currentStr = inputArray[i];
-    let tempStr = currentStr.toLowerCase();
-    if(i != 0) {
-      tempStr = tempStr.substr(0, 1).toUpperCase() + tempStr.substr(1);
-    }
-    result +=tempStr;
+function toCamelCase (iA) {
+  var r = "";
+  for(let i = 0 , l = iA.length; i < l; i++) {
+    var cS = iA[i];
+    var tS = cS.toLowerCase();
+    if(i != 0) tS = tS.substr(0, 1).toUpperCase() + tS.substr(1);
+    r += tS;
   }
-  return result;
+  return r;
 }
 
-function toCamelCaseString (input) {
-  let words = toWords(input);
-  return toCamelCase(words);
+function toCamelCaseString (i) {
+  var w = toWords(i);
+  return toCamelCase(w);
 }
