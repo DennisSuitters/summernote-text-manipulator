@@ -25,7 +25,7 @@ Finally, customize the Summernote Toolbar.
 $(document).ready(function() {
   $('#summernote').summernote({
     toolbar:[
-      ['custom',['textmanipulator']], // The dropdown
+      ['custom',['textManipulator']], // The dropdown
       ['style',['style']],
       ['font',['bold','italic','underline','clear']],
       ['fontname',['fontname']],
